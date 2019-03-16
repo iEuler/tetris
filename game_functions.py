@@ -5,12 +5,7 @@ Created on Fri Feb 15 22:22:47 2019
 @author: yanbo
 """
 
-# -*- coding: utf-8 -*-
-"""
-Created on Sun Feb  3 16:59:51 2019
 
-@author: yanbo
-"""
 import sys
 import pygame
 
