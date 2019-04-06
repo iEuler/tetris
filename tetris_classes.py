@@ -13,18 +13,17 @@ import game_functions as gf
 from random import randint
 
 
-
 class TetrisShape(): 
     
-    def __init__(self,game_settings,screen): 
+    def __init__(self, game_settings, screen):
         self.screen = screen 
         self.screen_rect = screen.get_rect()
         self.game_settings = game_settings        
         # configure the size of one elementary block
         self.width = game_settings.block_width
-        self.face_color = (255,0,0)
+        self.face_color = (255, 0, 0)
         
-        #initialize spaceship and its location 
+        # initialize spaceship and its location
         self.reset()
 
     def update(self, game_settings, settled):
@@ -37,16 +36,14 @@ class TetrisShape():
                 self.top += game_settings.drop_speed * 10
             else:
                 self.top += game_settings.drop_speed
-        
-                
-            
+
         self.rect.left = -self.width*(-self.left//self.width)
-        self.rect.top  = self.width*(self.top//self.width)
+        self.rect.top = self.width*(self.top//self.width)
         # print([self.left, self.rect.left, self.bottom, self.rect.bottom])
         
     def reset(self):
-        self.rect = pygame.Rect(0,0,self.width, self.width)
-        self.shape_code = randint(0,6)
+        self.rect = pygame.Rect(0, 0, self.width, self.width)
+        self.shape_code = randint(0, 6)
         self.shape_rel_position = gf.shape_coordinates(self.shape_code)  
         self.rect.top = 0
         self.rect.left = self.game_settings.screen_width//2
@@ -55,11 +52,10 @@ class TetrisShape():
         self.moving_right = False
         self.top = self.rect.top
         self.left = self.rect.left
-        
-    
+
     def draw_shape(self):
         # draw a button filled with color, then draw text
-        #self.screen.fill(self.face_color, self.rect)
+        # self.screen.fill(self.face_color, self.rect)
         edge_width = self.game_settings.block_edge_width
         block_width = self.game_settings.block_width
         block_width_inner = self.game_settings.block_width - 2*edge_width
@@ -82,8 +78,8 @@ class TetrisShape():
         self.shape_rel_position = new_rel_position
     
     def reach_left(self, settled):
-        kx0 = round(self.rect.left/self.game_settings.block_width)
-        ky0 = round(self.rect.top /self.game_settings.block_width)
+        kx0 = round(self.rect.left / self.game_settings.block_width)
+        ky0 = round(self.rect.top / self.game_settings.block_width)
         for dxdy in self.shape_rel_position:
             kx, ky = kx0+dxdy[0], ky0+dxdy[1]
             if kx <= 0:
@@ -113,8 +109,9 @@ class TetrisShape():
             elif settled.bin[kx][ky+1] == 1:
                 return True
         return False
-        
-class Settled():
+
+
+class Settled:
     
     def __init__(self, game_settings, screen):
         self.game_settings = game_settings  
@@ -130,12 +127,11 @@ class Settled():
 #        self.bin[self.bin_num-1][0] = 1
 #        self.bin[0][self.bin_cap-1] = 1
 #        self.bin[self.bin_num-1][self.bin_cap-1] = 1
-        
-        
+
         self.left = [k*block_width for k in range(self.bin_num)]
         self.top  = [k*block_width for k in range(self.bin_cap)]
         
-        #self.draw_settled()
+        # self.draw_settled()
     
     def draw_settled(self):
         edge_width = self.game_settings.block_edge_width
@@ -146,8 +142,7 @@ class Settled():
                     pygame.draw.rect(self.screen, self.face_color,
                                      [self.left[kx] + edge_width, self.top[ky]+edge_width,
                                       block_width_inner, block_width_inner])
-    
-    
+
     def update(self, tetris_shape):
         """merge the tetris_shape to settled"""
         kx0 = round(tetris_shape.rect.left/self.game_settings.block_width)
@@ -173,7 +168,8 @@ class Settled():
             sb.stats.score += self.game_settings.points_multiplier[len(filled)-1] * self.game_settings.points
             sb.prep_score()
 
-class Button():
+
+class Button:
     
     def __init__(self, game_settings, screen, msg):
         """initialize the property of button"""
